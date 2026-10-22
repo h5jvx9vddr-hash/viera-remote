@@ -54,7 +54,6 @@ struct VieraClient {
         let c = URLSessionConfiguration.ephemeral
         c.timeoutIntervalForRequest = 3
         c.timeoutIntervalForResource = 5
-        c.waitsForConnectivity = false
         return URLSession(configuration: c)
     }()
 
