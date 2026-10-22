@@ -1,0 +1,27 @@
+name: Protokolltest (simulierter TV)
+
+on:
+  push:
+    branches: [main]
+    paths: ['App/TV/VieraClient.swift', 'App/TV/Keys.swift', 'Tests/**', '.github/workflows/protocol.yml']
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - name: Swift
+        run: swift --version
+      - name: Simulierten VIERA starten
+        run: |
+          python3 Tests/mock_tv.py 55123 &
+          sleep 1
+          curl -sf http://127.0.0.1:55123/nrc/ddd.xml | head -3
+      - name: Test bauen + ausführen
+        working-directory: Tests/ProtocolCheck
+        run: |
+          cp ../../App/TV/VieraClient.swift ../../App/TV/Keys.swift Sources/ProtocolCheck/
+          swift build -c release 2>&1 | tail -30
+          .build/release/ProtocolCheck 55123

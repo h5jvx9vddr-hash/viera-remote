@@ -1,0 +1,6 @@
+build/
+*.xcodeproj
+*.ipa
+Tests/ProtocolCheck/.build/
+Tests/ProtocolCheck/Sources/ProtocolCheck/VieraClient.swift
+Tests/ProtocolCheck/Sources/ProtocolCheck/Keys.swift
